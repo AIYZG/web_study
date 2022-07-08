@@ -6,9 +6,9 @@
 ```js
 alert('Hello World!');  //警告框
 
-document.write('Hello World');   //页面输出
+document.write('Hello World!');   //页面输出
 
-console.log('Hello World');     //控制台
+console.log('Hello World!');     //控制台
 ```
 
 简短的javascript语句可以直接写在其关联事件中，如onclick
