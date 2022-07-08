@@ -2,7 +2,7 @@
 
 三种输出方式：
 ```js
-alert('Hello World!');  //警告框
+alert('Hello World!!');  //警告框
 
 document.write('Hello World!');   //页面输出
 
