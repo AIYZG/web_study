@@ -26,3 +26,19 @@ console.log('Hello World!');     //控制台
 注：type为 " text/javascript " 时可以不写
 
 script标签一旦用来引用外部js文件后，就不能在内部编写代码，即使写了也会被浏览器忽略，建议另加一个script标签。
+
+#### mousemove与mouseleave
+
+mouseenter、mouseleave 是一对儿，mouseover、mouseout 是一对儿。
+
+##### mouseenter、mouseleave：
+
+mouseenter：光标从元素外部移到元素内部时触发。
+mouseleave：光标从元素内部移到元素外部时触发。
+这两个事件 a) 不冒泡，b) 光标经过子元素时不触发。
+
+##### mouseover、mouseout：
+
+mouseover：光标从元素外部移到元素内部时触发。
+mouseout：光标从元素内部移到元素外部时触发。
+这两个事件 a)冒泡，b) 光标经过子元素时也触发。
