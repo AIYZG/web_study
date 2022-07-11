@@ -1,7 +1,5 @@
 # JavaScript个人学习手册 
 
-## day_1
-
 三种输出方式：
 ```js
 alert('Hello World!');  //警告框
@@ -27,7 +25,7 @@ console.log('Hello World!');     //控制台
 
 script标签一旦用来引用外部js文件后，就不能在内部编写代码，即使写了也会被浏览器忽略，建议另加一个script标签。
 
-#### mousemove与mouseleave
+#### mousemove 与 mouseleave
 
 mouseenter、mouseleave 是一对儿，mouseover、mouseout 是一对儿。
 
