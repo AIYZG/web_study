@@ -22,5 +22,8 @@ undated () {} 更新以后, 该组件内容修改之后, data 内的数据就是
 beforeDestroy () {} 销毁前, 当你需要销毁该组件的时候, 销毁之前使用
 
 destroyed () {} 销毁后, 组件完全销毁完毕
-<img width="318" alt="image" src="https://user-images.githubusercontent.com/77945453/178385561-1bbd17d6-0c54-4bff-b689-3b715adce5aa.png">
+
+
+<img width="361" alt="image" src="https://user-images.githubusercontent.com/77945453/178386722-89001486-6f8a-4aa8-8436-f6479c38a9b5.png">
+
 
