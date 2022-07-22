@@ -43,7 +43,7 @@ destroyed () {} 销毁后, 组件完全销毁完毕
 
   components: 目录里面放了一个组件文件，可以不用。
 
-  App.vue: 项目入口文件，我们也可以直接将组件写这里，而不使用 components 目录。
+  App.vue: 项目入口文件，我们可以直接将组件写这里，而不使用 components 目录。
 
   main.js: 项目的核心文件。
 
