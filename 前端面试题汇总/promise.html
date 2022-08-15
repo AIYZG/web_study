@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //用于将多个Promise实例，包装成一个新的Promise实例
+        // let p1 = new Promise((resolve,reject)=>{
+        //     resolve("成功01")
+        // })
+        // let p2 = new Promise((resolve,reject)=>{
+        //     // resolve("成功02")
+        //     reject('失败02')
+        // })
+        // // .catch((reason)=>{
+        // //     console.log(reason)
+        // // })
+        // let p3 = new Promise((resolve,reject)=>{
+        //     resolve("成功03")
+        // })
+        // //参数可以不是数组，但是必须是iterator接口,即可以遍历的结构
+        // //Array，Map，Set都属于ES6的iterable类型
+        // let pAll=Promise.all([p1,p2,p3])
+        // console.log(pAll)
+        // //pAll的状态由p1，p2，p3来决定，只有当三个都为成功状态，pAll才会为fullfilled，
+        // //但是有一个失败，那么就是失败，第一个失败的实例的返回值会当作参数传递给pAll的回调函数
+        // //如果作为参数的实例，自己定义了catch方法，那么他一旦rejected，不会触发pAll的catch方法
+        // pAll.then((value)=>{
+        //     //成功
+        //     console.log(value)
+        // }).catch((reason)=>{
+        //     console.log(reason)
+        // })
+        // //多个请求结果合并在一起
+        // // 实例
+        // function getBannerList(){
+        //     return new Promise((resolve,reject)=>{
+        //         setTimeout(()=>{
+        //             resolve('轮播图的数据')
+        //         },1000)
+        //     })
+        // }
+
+        // function getMusicList(){
+        //     return new Promise((resolve,reject)=>{
+        //         setTimeout(()=>{
+        //             resolve('歌曲列表的数据')
+        //         },2000)
+        //     })
+        // }
+
+        // function getCateList(){
+        //     return new Promise((resolve,reject)=>{
+        //         setTimeout(()=>{
+        //             resolve('歌曲分类的数据')
+        //         },3000)
+        //     })
+        // }
+
+        // function initLoad(){
+        //     let All = Promise.all([getBannerList(),getMusicList(),getCateList()])
+        //     console.log(All,'All')
+        //     All.then((value)=>{
+        //         console.log(value,"value");
+        //     })
+        // }
+
+        // initLoad()
+
+        // 1.接收一个 Promise 实例的数组作为参数
+        // 2.返回一个新的 promise 对象，
+        // 3.遍历传入的参数，用Promise.resolve()将参数"包一层"，使其变成一个promise对象
+        // 4.参数所有回调成功才是成功，并且返回值数组与参数顺序一致
+        // 5.如果参数数组其中一个失败，则触发失败状态，第一个触发失败的 Promise 错误信息作为 Promise.all 的错误信息。
+        // function promiseAll(promiseArray) {
+        //     return new Promise(function (resolve, reject) {
+        //         if (!Array.isArray(promiseArray)) {
+        //             throw new TypeError(`argument must be a array`)
+        //         }
+
+        //         let resolvedCounter = 0;
+        //         let promiseNum = promiseArray.length;
+        //         let resolvedResult = [];
+
+        //         for (let i = 0; i < promiseNum; i++) {
+        //             Promise.resolve(promiseArray[i]).then(
+        //                 value => {
+        //                     resolvedCounter++;
+        //                     resolvedResult[i] = value;
+        //                     if (resolvedCounter == promiseNum) {
+        //                         return resolve(resolvedResult)
+        //                     }
+        //                 },
+        //                 reason => {
+        //                     return reject(error)
+        //                 }
+        //             )
+        //         }
+        //     })
+        // }
+
+        // let p1 = new Promise(function (resolve, reject) {
+        //     setTimeout(function () {
+        //         resolve('11')
+        //     }, 1000)
+        // })
+        // let p2 = new Promise(function (resolve, reject) {
+        //     setTimeout(function () {
+        //         resolve('22')
+        //     }, 2000)
+        // })
+        // let p3 = new Promise(function (resolve, reject) {
+        //     setTimeout(function () {
+        //         resolve('33')
+        //     }, 3000)
+        // })
+        // promiseAll([p3, p1, p2]).then(res => {
+        //     console.log(res) // ['11','22','33']
+        // })
+
+
+        // // 模仿一个fetch的异步函数，返回promise,promise.all高并发限制
+        // function mockFetch(param) {
+        //     return new Promise((resovle) => {
+        //         setTimeout(() => {
+        //             resovle(param);
+        //         }, 2000);
+        //     });
+        // }
+
+        // function limitedRequest(urls, maxNum) {
+        //     const pool = [];
+        //     // 处理maxNum比urls.length 还要大的情况。
+        //     const initSize = Math.min(urls.length, maxNum);
+        //     for (let i = 0; i < initSize; i++) {
+        //         // 一次性放入初始的个数
+        //         pool.push(run(urls.splice(0, 1)));
+        //     }
+        //     // r 代表promise完成的resolve回调函数
+        //     // r 函数无论什么样的结果都返回promise，来确保最终promise.all可以正确执行
+        //     function r() {
+        //         console.log('当前并发度：', pool.length);
+        //         if (urls.length === 0) {
+        //         console.log('并发请求已经全部发起');
+        //         return Promise.resolve();
+        //         }
+        //         return run(urls.splice(0, 1));
+        //     }
+        //     // 调用一次请求
+        //     function run(url) {
+        //         return mockFetch(url).then(r);
+        //     }
+        //     // 全部请求完成的回调
+        //     Promise.all(pool).then((value) => {
+        //         console.log(value);
+        //         console.log('请求已经全部结束');
+        //     });
+        // }
+        // // 函数调用
+        // limitedRequest([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 10);
+
+
+        // 现给定⼀个整数数组（数组长度⼤于等于5），nums 和⼀个整数⽬标值 target，请你在该数组中找出和为⽬标值 target 的那三个整数，并返回它们的数组（如果有多个下标组合都满⾜，则返回下标和最⼩的那⼀组）的下标。
+        // 注意：数组中同⼀个元素在答案⾥不能重复出现。 ⽐如输⼊：nums = [3，2，4，5，7], target = 10 输出：[0，1，3]
+
+
+        //深拷贝
+        function deepClone(o) {
+            // 判断如果不是引用类型，直接返回数据即可
+            if (typeof o === 'string' || typeof o === 'number' || typeof o === 'boolean' || typeof o === 'undefined') {
+                return o
+            } else if (Array.isArray(o)) { // 如果是数组，则定义一个新数组，完成复制后返回
+                // 注意，这里判断数组不能用typeof，因为typeof Array 返回的是object
+                console.log(typeof [])  // --> object
+                var _arr = []
+                o.forEach(item => { _arr.push(item) })
+                return _arr
+            } else if (typeof o === 'object') {
+                var _o = {}
+                for (let key in o) {
+                    _o[key] = deepClone(o[key])
+                }
+                return _o
+            }
+        }
+
+        // 定义一个新数组new_nums，对数组进行升序排列
+        // 遍历数组，访问数组的第一个元素后，将问题转化为从后面元素中找出和为target - new_nums[i]的两个数
+        // 利用两个指针指向数组两端，不断向中间靠拢从而得到结果，即双指针法
+        // 根据结果得到原数组的三个索引值
+        // 同时通过索引和最小的值得到最后结果
+        let nums = [6,1,4,3,5,2,7,9,8]
+        let target = 10
+        let arrs = arraySum(nums,target)
+        console.log(arrs,'arrs');
+        function arraySum(nums, target){
+            let arrs = []
+            let min_sums = 0
+            let new_nums = deepClone(nums)
+            new_nums = new_nums.sort()
+            console.log(nums,"nums");
+            for(let i=0;i<new_nums.length;i++){
+                //循环排序后的数组
+                let d = target - new_nums[i];
+                for(let j=i+1;j<new_nums.length;j++){
+                    let k = new_nums.length-1;
+                    while(j<k && (new_nums[j]+new_nums[k])>d){
+                        k--;
+                    }
+                    if(j==k){
+                        break;
+                    }
+                    if(new_nums[j]+new_nums[k]==d){
+                        // let list = [nums[i],nums[j],nums[k]];
+                        let old_i,old_j,old_k = 0;
+                        for(let m=0;m<nums.length;m++){
+                            if(nums[m]==new_nums[i]){
+                                old_i = m
+                            }
+                            else if(nums[m]==new_nums[j]){
+                                old_j = m
+                            }
+                            else if(nums[m]==new_nums[k]){
+                                old_k = m
+                            }
+                        }
+                        let sum = old_i+old_j+old_k;
+                        if(min_sums>sum||min_sums==0){
+                            min_sums = sum
+                        }
+                        let  dict = {
+                            'sum':sum,
+                            'list': [old_i,old_j,old_k]
+                        }
+                        arrs.push(dict)
+                    }
+                }
+            }
+            let list = []
+            console.log(arrs,'arrs')
+            arrs.forEach(element => {
+                console.log(min_sums,'min_sums');
+                if(element['sum']==min_sums){
+                    list = element['list']
+                }
+            });
+            return list
+        }
+
+    </script>
+</body>
+
+</html>
