@@ -253,6 +253,32 @@
             return list
         }
 
+        // 起初⼀对兔⼦，每4个⽉性成熟后⽣育下⼀对兔⼦，请问理想状态下，第10个⽉总共有多少对兔⼦
+        let num = 4
+        let month = 10
+        let rabbit_sum = rabbitSums(num,month)
+        console.log(rabbit_sum,'rabbit_sum')
+        
+        function rabbitSums(num,month){
+            let now_month = 0
+            let rabbit_num = 1
+            let month_dict = {}
+            for(let i=0;i<=month;i+=num){
+                console.log(i,"iiiii");
+                let month_num = i / num
+                month_dict[i + '月兔子'] = 2 * rabbit_num
+                rabbit_num = rabbit_num * 2
+                
+            }
+  
+            console.log(month_dict);
+            // 0月兔子: 2
+            // 4月兔子: 4
+            // 8月兔子: 8
+            return rabbit_num
+
+        }
+
     </script>
 </body>
 

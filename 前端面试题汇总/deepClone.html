@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        //浅拷贝，指向了同一个内存空间
+        //数组和对象的赋值
+        // let arr = [1,2,3];
+        // let newArr = arr;
+        // newArr.push(4);
+        // console.log(arr,'arr');
+        // console.log(newArr,'newArr');
+
+        //结构赋值，属于浅拷贝
+        //结构赋值针对一维数组和对象时，可以看作深拷贝，多维的就是浅拷贝
+        let arr = [1,2,3];
+        let newArr = [...arr];
+
+        //二维
+        let arr2 = [[1,2,3],[4,5,6]];
+        let newArr2 = [...arr2];
+        newArr2[0].push(888)
+        console.log(newArr2,'newArr2');
+
+        //深拷贝方法
+        let list = [
+            {id:1,name:'22',class:'2班'},
+            {id:2,name:'33',class:'3班'},
+            {id:3,name:'44',class:'4班'}
+        ]
+        //1.通过JSON方法深拷贝，反序列化再序列化
+        //方法不能拷贝
+        //function => "function"
+        let newList = JSON.parse(JSON.stringify(list));
+        console.log(newList,'newList');
+
+        //标准的深拷贝 => 针对引用数据类型（数组，对象）
+        function deepClone(source){
+            //判断source的数据类型是数组还是对象
+            //数组的constructor => Array(基类)；对象{}的数组的constructor => Object
+            //targetObj是临时容器
+            const targetObj = source.constructor === Array ? [] : {};
+            for(let keys in source){
+                //判断source是否有当前属性
+                if(source.hasOwnProperty(keys)){
+                    //source[keys]有三种情况，1.基础数据类型；2.对象；3.数组
+                    if(source[keys] && typeof source[keys] === 'object'){
+                        //引用数据类型
+                        // targetObj[keys] = source[keys].constructor === Array ? [] : {};
+                        //递归
+                        targetObj[keys] = deepClone(source[keys]);
+                    }
+                    else{
+                        // 基本数据类型,直接赋值
+                        targetObj[keys] = source[keys];
+                    }
+                }
+            }
+
+            return targetObj
+        }
+
+        let objC = {
+            ff:'name',
+            gg:1,
+            obj:{str:'111',age:12},
+            arr:[1,2,3,4]
+        }
+        console.log(objC,'objC');
+        let newObj = deepClone(objC);
+        newObj.arr.push(5)
+        console.log(newObj,'newObj');
+
+    </script>
+</body>
+
+</html>
